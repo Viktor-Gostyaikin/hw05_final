@@ -1,0 +1,12 @@
+{
+    "html":
+    {
+        "indent_handlebars": true,
+        "indent_scripts": "normal",
+        "max_preserve_newlines": 1,
+        "keep_array_indentation": true,
+        "templating": ["django"],
+        "wrap-line-length ": 120,
+        "indent_size": 2
+    }
+  }

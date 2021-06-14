@@ -1,0 +1,15 @@
+{% extends "includes/base.html" %}
+{% block title %}Thread{% endblock %}
+{% block header %}Thread{% endblock %}
+{% block content %}
+  <main role="main" class="container">
+    <div class="row">
+      {% include "includes/page_info.html" with post_page=True %}
+      <div class="col-md-9">
+        <!-- Пост -->
+        {% include "includes/post_item.html" with post_page=True %}
+      </div>
+    </div>
+  </main>
+  {% include "includes/paginator.html" %}
+{% endblock %}

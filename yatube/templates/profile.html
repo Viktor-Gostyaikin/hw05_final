@@ -1,0 +1,24 @@
+{% extends "includes/base.html" %}
+{% block title %}{{ author.get_full_name }}(@{{author.username}}){% endblock %}
+{% block header %}Профиль @{{author.username}}{% endblock %}
+{% block content %}
+
+  <main role="main" class="container">
+    <div class="row">
+
+      {% include "includes/page_info.html" with profile_page=True %}
+
+      <div class="col-md-9">
+
+        {% load thumbnail %}
+
+        {% for post in page %}
+          {% include "includes/post_item.html" with profile_page=True %}
+        {% endfor %}
+
+      </div>
+    </div>
+  </main>
+  {% include "includes/paginator.html" %}
+
+{% endblock %}

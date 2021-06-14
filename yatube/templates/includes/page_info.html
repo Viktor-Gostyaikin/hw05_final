@@ -1,0 +1,48 @@
+<div class="col-md-3 mb-3 mt-1">
+  <div class="card">
+    <div class="card-body">
+      <div class="h2">
+        {{ author.get_full_name }}
+      </div>
+      <div class="h3 text-muted">
+        {% if profile_page or post_page %}
+          @{{ author }}
+        {% elif group_page %}
+          @{{ group }}
+        {% endif %}
+      </div>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <div class="h6 text-muted">
+          Подписчиков: XXX <br/>
+          Подписки: XXX
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="h6 text-muted">
+          {% if profile_page %} 
+            Колисчество записей: {{ author.posts.count }}
+          {% elif post_page %}
+            Комментариев к этому посту: {{ post.comments.count }}
+          {% elif group_page %}
+            Колисчество записей: {{ group.posts.count }}
+          {% endif %}
+        </div>
+      </li>
+      {% if profile_page %}
+        <li class="list-group-item">
+          {% if following is True %}
+            <a class="btn btn-lg btn-light" href="{% url 'profile_unfollow' author.username %}" role="button">
+              Отписаться
+            </a>
+          {% else %}
+            <a class="btn btn-lg btn-primary" href="{% url 'profile_follow' author.username %}" role="button">
+              Подписаться
+            </a>
+          {% endif %}
+        </li>
+      {% endif%}
+    </ul>
+  </div>
+</div>
