@@ -64,10 +64,10 @@ class Comment(models.Model):
         verbose_name='Текст комментарий',
         help_text='Введите текст комментария'
     )
-    pub_date = models.DateTimeField('date published', auto_now_add=True)
+    created = models.DateTimeField('date published', auto_now_add=True)
 
     class Meta:
-        ordering = ['-pub_date']
+        ordering = ['-created']
 
     def __str__(self):
         return self.text[:15]
