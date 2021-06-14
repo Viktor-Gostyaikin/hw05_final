@@ -1,7 +1,6 @@
-from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models.query import FlatValuesListIterable
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import cache_page
 
@@ -76,12 +75,17 @@ def profile(request, username):
     count_of_posts = paginator.count
     request_user = request.user
     if request_user.is_authenticated:
-        following = Follow.objects.filter(user=request_user, author=author).exists()
+        following = Follow.objects.filter(
+            user=request_user,
+            author=author
+        ).exists()
         context = {
-        'author': author, 'page': page,
-        'count_of_posts': count_of_posts, 'request_user': request_user,
-        'following': following, 
-    }
+            'author': author,
+            'page': page,
+            'count_of_posts': count_of_posts,
+            'request_user': request_user,
+            'following': following
+        }
         return render(request, 'profile.html', context)
     context = {
         'author': author, 'page': page,
@@ -115,7 +119,7 @@ def post_view(request, username, post_id):
 @login_required
 def follow_index(request):
     follower = Follow.objects.get(user=request.user)
-    post_list = Post.objects.filter(author__following=follower) 
+    post_list = Post.objects.filter(author__following=follower)
     paginator = Paginator(post_list, 10)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)

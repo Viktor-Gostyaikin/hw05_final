@@ -1,6 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy
 from django.db import models
 
 from .validators import validate_not_empty
@@ -86,4 +84,3 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following'
     )
-    

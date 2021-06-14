@@ -251,7 +251,8 @@ class PostViewsTests(TestCase):
 
     def test_follow_auth(self):
         '''
-        Авторизованный пользователь может подписываться на других пользователей и удалять их из подписок.
+        Авторизованный пользователь может подписываться
+        на других пользователей и удалять их из подписок.
         '''
         url_follow = reverse(
             'profile_follow',
@@ -293,13 +294,13 @@ class PostViewsTests(TestCase):
             kwargs={'username': self.user_2.username}
         )
         response_follow = self.authorized_client.get(url_follow)
-        
+
         self.assertEqual(response_follow.status_code, HTTPStatus.FOUND)
-        
+
         follower = Follow.objects.get(user=self.user)
         posts_count = Post.objects.filter(author__following=follower).count()
         form_data = {'text': self.post_ex.text}
-        
+
         response = self.authorized_client_2.post(
             reverse('new_post'),
             data=form_data,

@@ -8,7 +8,6 @@ User = get_user_model()
 
 
 class PaginatorViewsTest(TestCase):
-    # Здесь создаются фикстуры: клиент и 13 тестовых записей.
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

@@ -130,23 +130,27 @@ class PostCreateFormTests(TestCase):
         self.assertRedirects(response, redirect_url)
 
     def test_create_comment_by_auth(self):
-        '''Валидная форма авторизованного пользователя создает запись в Comment.'''
+        '''
+        Валидная форма авторизованного пользователя
+        создает запись в Comment.
+        '''
         comment_count = Comment.objects.count()
         form_data = {
             'text': self.post_ex.text,
         }
         reverse_test = reverse(
-                'post', kwargs={
+            'post', kwargs={
                 'username': self.anyone.username,
                 'post_id': self.post_ex.id}
-            )
+        )
         response = self.authorized_client.post(
             reverse_test,
             data=form_data,
             follow=True
         )
         self.assertRedirects(response, reverse_test)
-        self.assertEqual(Comment.objects.filter(post__id=self.post_ex.id).count(), comment_count + 1)
+        self.assertEqual(Comment.objects.filter(
+            post__id=self.post_ex.id).count(), comment_count + 1)
         self.assertTrue(
             Comment.objects.filter(
                 post__id=self.post_ex.id,
@@ -162,10 +166,10 @@ class PostCreateFormTests(TestCase):
             'text': self.post_ex.text,
         }
         reverse_test = reverse(
-                'post', kwargs={
+            'post', kwargs={
                 'username': self.anyone.username,
                 'post_id': self.post_ex.id}
-            )
+        )
         response_user = self.authorized_client.post(
             reverse_test,
             data=form_data,
@@ -179,9 +183,9 @@ class PostCreateFormTests(TestCase):
 
         with self.assertRaises(ValueError):
             self.guest_client.post(
-            reverse_test,
-            data=form_data,
-            follow=True
-        )
+                reverse_test,
+                data=form_data,
+                follow=True
+            )
         self.assertTrue(response_user.status_code, 302)
         self.assertTrue(comment_exists)
