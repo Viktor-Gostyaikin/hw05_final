@@ -117,6 +117,20 @@ def post_view(request, username, post_id):
 
 
 @login_required
+def post_comment(request, username, post_id):
+    post = get_object_or_404(Post, author__username=username, pk=post_id)
+    form = CommentForm(request.POST or None,)
+    context = {'form': form}
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        form.save()
+        return redirect('post', username, post_id)
+    return render(request, 'comment.html', context)
+
+
+@login_required
 def follow_index(request):
     follower = Follow.objects.get(user=request.user)
     post_list = Post.objects.filter(author__following=follower)

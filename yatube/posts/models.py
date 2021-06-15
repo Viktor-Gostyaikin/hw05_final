@@ -67,7 +67,7 @@ class Comment(models.Model):
     created = models.DateTimeField('date published', auto_now_add=True)
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['created']
 
     def __str__(self):
         return self.text[:15]
