@@ -132,8 +132,7 @@ def post_comment(request, username, post_id):
 
 @login_required
 def follow_index(request):
-    follower = Follow.objects.get(user=request.user)
-    post_list = Post.objects.filter(author__following=follower)
+    post_list = Post.objects.filter(author__following__user=request.user)
     paginator = Paginator(post_list, 10)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)

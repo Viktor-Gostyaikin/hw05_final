@@ -77,8 +77,6 @@ TEMPLATES = [
     },
 ]
 
-THUMBNAIL_DEBUG = True
-
 WSGI_APPLICATION = 'yatube.wsgi.application'
 
 
