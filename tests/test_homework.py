@@ -167,7 +167,8 @@ class TestGroup:
         description = 'Тестовое описание группы'
 
         assert Group.objects.count() == 0
-        group = Group.objects.create(title=title, slug=slug, description=description)
+        group = Group.objects.create(
+            title=title, slug=slug, description=description)
         assert Group.objects.count() == 1
         assert Group.objects.get(slug=slug).pk == group.pk
 
@@ -188,6 +189,5 @@ class TestGroupView:
             response = client.get(f'/group/{post_with_group.group.slug}/')
         if response.status_code == 404:
             assert False, 'Страница `/group/<slug>/` не найдена, проверьте этот адрес в *urls.py*'
-
         if response.status_code != 200:
-            assert False, 'Страница `/group/<slug>/` работает неправильно.'
+            assert False, f'Страница `/group/<slug>/` работает неправильно.{response.status_code}'

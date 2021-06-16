@@ -2,6 +2,7 @@
 {% block title %}Последние обновления на сайте{% endblock %}
 {% block header %}Последние обновления на сайте{% endblock %}
 {% load cache %}
+{% load thumbnail %}
 {% cache 20 index_page %}
 {% block content %}
 <div class="col-md-9">

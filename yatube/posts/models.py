@@ -33,7 +33,7 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name='posts',
+        related_name='group_posts',
         verbose_name='Сообщество',
         help_text='Выберите сообщество')
     image = models.ImageField(upload_to='posts/', blank=True, null=True)
@@ -84,3 +84,10 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following'
     )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'author'],
+                name="unique_followers")
+        ]

@@ -155,8 +155,7 @@ class PostViewsTests(TestCase):
             }
         )
         form_context = {
-            'username': self.user.username,
-            'post_id': self.post_ex.id
+            'post': self.post_ex
         }
         form_fields = {
             'group': forms.fields.ChoiceField,

@@ -1,6 +1,7 @@
 {% extends "includes/base.html" %}
 {% block title %}{{ author.get_full_name }}(@{{author.username}}){% endblock %}
 {% block header %}Профиль @{{author.username}}{% endblock %}
+{% load thumbnail %}
 {% block content %}
 
   <main role="main" class="container">
