@@ -1,8 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from .validators import validate_not_empty
-
 User = get_user_model()
 
 
@@ -19,7 +17,6 @@ class Group(models.Model):
 class Post(models.Model):
     id = models.AutoField(primary_key=True)
     text = models.TextField(
-        validators=[validate_not_empty],
         verbose_name='Текст публикации',
         help_text='Введите текст публикации'
     )
@@ -60,7 +57,6 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='comments')
     text = models.TextField(
-        validators=[validate_not_empty],
         verbose_name='Текст комментарий',
         help_text='Введите текст комментария'
     )
