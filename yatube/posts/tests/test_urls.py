@@ -46,6 +46,7 @@ class PostURLTests(TestCase):
             f'/group/{self.group_ex.slug}/': HTTPStatus.OK,
             '/new/': HTTPStatus.FOUND,
             f'/{self.anyone.username}/': HTTPStatus.OK,
+            f'/{self.anytwo.username}/follow/': HTTPStatus.FOUND,
             f'/{self.anyone.username}/{self.post_ex.id}/': HTTPStatus.OK,
             f'/{self.anyone.username}/{self.post_ex.id}/edit/':
                 HTTPStatus.FOUND,
@@ -63,6 +64,7 @@ class PostURLTests(TestCase):
             '/new/': HTTPStatus.OK,
             f'/{self.anyone.username}/{self.post_ex.id}/edit/':
                 HTTPStatus.OK,
+            f'/{self.anytwo.username}/follow/': HTTPStatus.FOUND,
             f'/{self.anytwo.username}/{self.post_ex2.id}/edit/':
                 HTTPStatus.FOUND,
         }

@@ -4,9 +4,10 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import cache_page
 
+from yatube.settings import PAGE_SIZE
+
 from .forms import CommentForm, PostForm
 from .models import Follow, Group, Post
-from yatube.settings import PAGE_SIZE
 
 User = get_user_model()
 
@@ -73,9 +74,6 @@ def profile(request, username):
     page = paginator.get_page(page_number)
     count_of_posts = paginator.count
     request_user = request.user
-    # Не успел сделать.
-    follower_count = User.objects.filter(follower__author=author).count()
-    following_count = User.objects.filter(following__author=author).count()
     if request_user.is_authenticated and request_user != author:
         following = Follow.objects.filter(
             user=request_user,
@@ -86,13 +84,13 @@ def profile(request, username):
             'page': page,
             'count_of_posts': count_of_posts,
             'request_user': request_user,
-            'following': following
+            'following': following,
+
         }
         return render(request, 'profile.html', context)
     context = {
         'author': author, 'page': page,
         'count_of_posts': count_of_posts, 'request_user': request_user,
-        'follower_count': follower_count, 'following_count': following_count,
     }
     return render(request, 'profile.html', context)
 

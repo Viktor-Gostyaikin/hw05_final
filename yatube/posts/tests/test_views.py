@@ -257,14 +257,9 @@ class PostViewsTests(TestCase):
             'profile_follow',
             kwargs={'username': self.user_2.username}
         )
-        url_unfollow = reverse(
-            'profile_unfollow',
-            kwargs={'username': self.user_2.username}
-        )
 
         response_follow = self.authorized_client.get(url_follow)
 
-        self.assertEqual(response_follow.status_code, HTTPStatus.FOUND)
         self.assertRedirects(response_follow, reverse(
             'profile',
             kwargs={'username': self.user_2.username})
@@ -274,15 +269,30 @@ class PostViewsTests(TestCase):
             author=self.user_2).exists()
         )
 
+    def test_unfollow_auth(self):
+        '''
+        Авторизованный пользователь может удалять
+        других пользователей подписок.
+        '''
+        url_unfollow = reverse(
+            'profile_unfollow',
+            kwargs={'username': self.user_2.username}
+        )
+
+        Follow.objects.create(user=self.user, author=self.user_2)
         response_unfollow = self.authorized_client.get(url_unfollow)
 
         self.assertEqual(response_unfollow.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response_unfollow, reverse(
+            'profile',
+            kwargs={'username': self.user_2.username})
+        )
         self.assertFalse(Follow.objects.filter(
             user=self.user,
             author=self.user_2).exists()
         )
 
-    def test_follow_anon(self):
+    def test_follow_feed(self):
         '''
         Новая запись пользователя появляется в ленте тех,
         кто на него подписан и не появляется в ленте тех,
@@ -292,22 +302,18 @@ class PostViewsTests(TestCase):
             'profile_follow',
             kwargs={'username': self.user_2.username}
         )
-        response_follow = self.authorized_client.get(url_follow)
-
-        self.assertEqual(response_follow.status_code, HTTPStatus.FOUND)
-
-        follower = Follow.objects.get(user=self.user)
-        posts_count = Post.objects.filter(author__following=follower).count()
         form_data = {'text': self.post_ex.text}
 
+        response_follow = self.authorized_client.get(url_follow)
+        follower = Follow.objects.get(user=self.user)
+        posts_count = Post.objects.filter(author__following=follower).count()
         response = self.authorized_client_2.post(
             reverse('new_post'),
             data=form_data,
             follow=True
         )
-
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
         posts_count_2 = Post.objects.filter(author__following=follower).count()
 
+        self.assertEqual(response_follow.status_code, HTTPStatus.FOUND)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(posts_count_2, posts_count + 1)
