@@ -47,5 +47,3 @@
     Django debug toolbar
     PostgreSQL
     Django ORM
-
-# Проект размещен по адресу: catrain2020-ya.tk
